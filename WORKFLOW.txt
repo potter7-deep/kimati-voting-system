@@ -1,0 +1,138 @@
+COMPLETE VOTING SYSTEM WORKFLOW
+================================
+
+QUICK START FOR ADMINS:
+======================
+
+1. LOGIN AS ADMIN
+   Email: admin@university.edu
+   Password: admin
+   
+2. CREATE AN ELECTION
+   - Click "Create Election" button
+   - Fill in:
+     * Election Title (e.g., "Student President Election")
+     * Description (optional)
+     * Start Date & Time
+     * End Date & Time
+   - Click "Create Election"
+   - Status will be "Upcoming" by default
+
+3. ADD CANDIDATES
+   - Click "Manage" button on the election
+   - Go to "Candidates" tab
+   - Click "Add Candidate"
+   - Fill in:
+     * Name
+     * Position (e.g., "President", "Vice President")
+     * Bio (optional)
+   - Click "Add Candidate"
+   - Repeat for each candidate
+
+4. ACTIVATE ELECTION
+   - Still in "Manage" dialog, go to "Settings" tab
+   - Change Status dropdown from "Upcoming" to "Active"
+   - Election is now visible to voters!
+
+5. MONITOR VOTING
+   - Go to "Results" tab to see live vote counts
+   - Candidates with most votes appear first
+   - Percentages update in real-time
+
+6. CLOSE ELECTION (when done)
+   - Change Status from "Active" to "Closed"
+   - Voters can no longer vote
+   - Results remain visible
+
+=====================================
+VOTER WORKFLOW:
+=====================================
+
+1. REGISTER (if new user)
+   - Click "Register" on home page
+   - Fill in:
+     * Full Name
+     * Email
+     * Registration Number (Student ID)
+     * Year of Study (1-4)
+     * Password
+   - Click "Register"
+
+2. LOGIN
+   - Click "Login"
+   - Enter Email & Password
+   - Click "Login"
+
+3. VOTE
+   - Click "Vote Now" or "Vote" in navbar
+   - See all "Active" elections only
+   - Click "View Candidates & Vote" on an election
+   - Select a candidate and click "Vote"
+   - Confirm your vote
+   - You can vote once per election
+
+4. VIEW RESULTS
+   - Click "Results" in navbar
+   - Select an election from the left sidebar
+   - See:
+     * Vote counts for each candidate
+     * Percentage of votes
+     * Progress bars showing vote distribution
+   - Results update in real-time
+
+=====================================
+ELECTION STATUS MEANINGS:
+=====================================
+
+UPCOMING:
+- Election exists but not yet open for voting
+- Not visible to voters
+- Admin can still add/remove candidates
+- Use this to prepare an election
+
+ACTIVE:
+- Voters can see and vote in this election
+- Results are visible to everyone
+- Admin can still monitor in real-time
+- Use this during voting period
+
+CLOSED:
+- Voting is finished
+- No new votes can be cast
+- Final results visible to everyone
+- Use this after voting period ends
+
+=====================================
+IMPORTANT NOTES:
+=====================================
+
+✓ Each voter can only vote ONCE per election
+✓ Results update instantly after each vote
+✓ Only "Active" elections are visible to voters
+✓ Admin can add/remove candidates anytime
+✓ Voter registration number must be unique
+✓ Passwords are securely hashed
+
+=====================================
+TROUBLESHOOTING:
+=====================================
+
+Q: Voters can't see the election I created
+A: Change election status from "Upcoming" to "Active"
+   in the Manage section
+
+Q: Results aren't showing any votes
+A: Make sure election status is "Active" so voters can see it
+   Wait for voters to cast their votes
+
+Q: Can't remove a candidate
+A: Click "Remove" button next to candidate in Candidates tab
+   Confirm the deletion
+
+Q: Voter says they already voted
+A: Each voter can only vote once per election
+   Repeat votes are not allowed (by design)
+
+Q: Want to restart an election
+A: Delete it completely and create a new one
+   Click "Delete" button in Elections table

@@ -1,0 +1,152 @@
+UNIVERSITY VOTING SYSTEM - SETUP INSTRUCTIONS
+
+=== REQUIREMENTS ===
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
+- Web server (Apache, Nginx, or similar)
+- Modern web browser
+
+=== INSTALLATION STEPS ===
+
+1. DATABASE SETUP
+   a) Open phpMyAdmin or MySQL command line
+   b) Run the SQL commands from database.sql to create the database and tables
+   c) Default connection settings in config.php:
+      - Host: localhost
+      - User: root
+      - Password: (empty)
+      - Database: voting_system
+      
+   If your MySQL credentials are different, update config.php accordingly.
+
+2. FILE PLACEMENT
+   - Place all files in your web server's document root
+   - For Apache: /var/www/html/ or htdocs
+   - For local development: any accessible directory via localhost
+
+3. DATABASE PERMISSIONS
+   - Ensure the MySQL user has full permissions on the voting_system database
+   - If needed, create a dedicated user in MySQL
+
+4. PHP CONFIGURATION
+   - Ensure PHP is installed and running
+   - Sessions should be enabled (usually default)
+   - Check php.ini settings if having issues:
+     - session.save_path should be writable
+
+5. START THE SYSTEM
+   - For local testing: Open http://localhost/voting/index.php in your browser
+   - For server deployment: Configure your web server accordingly
+
+=== DEFAULT ADMIN SETUP ===
+
+To create an admin account:
+1. First, manually insert an admin user in the database:
+   INSERT INTO users (name, email, password, registration_number, year, role) 
+   VALUES ('Admin User', 'admin@university.edu', 'hashed_password', 'ADMIN001', 1, 'admin');
+
+2. For the hashed_password, use PHP:
+   php -r "echo password_hash('your_password', PASSWORD_BCRYPT);"
+
+3. Or register normally and manually update the role:
+   UPDATE users SET role = 'admin' WHERE email = 'admin@university.edu';
+
+=== FILE STRUCTURE ===
+
+voting/
+├── index.php                 (Landing/Home page)
+├── vote.php                  (Voting page)
+├── results.php               (Results page)
+├── dashboard.php             (Admin dashboard)
+├── auth.php                  (Authentication logic)
+├── voting.php                (Voting logic)
+├── admin.php                 (Admin logic)
+├── get_election_candidates.php    (AJAX for candidates)
+├── get_election_management.php    (AJAX for admin)
+├── config.php                (Database configuration)
+├── database.sql              (Database schema)
+├── styles.css                (All styling + dark mode)
+├── script.js                 (JavaScript functionality)
+└── SETUP.txt                 (This file)
+
+=== FEATURES ===
+
+USER FEATURES:
+✓ User registration and login
+✓ View active elections
+✓ Cast votes
+✓ View real-time results
+✓ Dark mode toggle
+✓ Responsive design (mobile, tablet, desktop)
+
+ADMIN FEATURES:
+✓ Create and manage elections
+✓ Add candidates
+✓ Update election status
+✓ View detailed results
+✓ Delete elections
+✓ Dashboard with statistics
+
+=== TROUBLESHOOTING ===
+
+Connection Error:
+- Check config.php MySQL credentials
+- Ensure MySQL service is running
+- Verify database.sql was imported
+
+Blank Pages:
+- Check PHP error logs
+- Ensure error_reporting is not suppressed in config.php
+- Verify all files are in the correct directory
+
+Session Issues:
+- Check session.save_path is writable
+- Clear browser cookies
+- Restart web server
+
+Dark Mode Not Working:
+- Ensure JavaScript is enabled
+- Check browser console for errors
+- Clear browser cache
+
+=== SECURITY NOTES ===
+
+This is a basic implementation. For production use:
+- Use HTTPS/SSL encryption
+- Implement CSRF protection
+- Add rate limiting for login attempts
+- Use prepared statements (already implemented)
+- Validate and sanitize all inputs (already implemented)
+- Set appropriate database permissions
+- Use strong passwords
+- Keep backups of your database
+- Implement audit logging
+
+=== CUSTOMIZATION ===
+
+Database Credentials:
+- Edit config.php and update $host, $db_user, $db_password, $db_name
+
+Branding:
+- Update logo in navbar (SVG in HTML)
+- Modify colors in styles.css :root section
+- Update footer text
+
+Email Notifications (optional):
+- Add email verification during registration
+- Send voting confirmation emails
+- Notify admins of new elections
+
+=== SUPPORT ===
+
+For issues or questions:
+1. Check the troubleshooting section above
+2. Review browser console for JavaScript errors
+3. Check PHP error logs
+4. Verify database connectivity
+5. Test with sample data first
+
+=== VERSION ===
+
+Version 1.0 - Complete University Voting System
+Last Updated: 2024
