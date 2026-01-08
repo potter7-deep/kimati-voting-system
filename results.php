@@ -35,6 +35,7 @@ if (isset($_GET['election_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results - University Voting System</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -111,6 +112,20 @@ if (isset($_GET['election_id'])) {
                                     </div>
                                 </div>
 
+                                <!-- Charts Section -->
+                                <?php if (!empty($selected_results) && $total_votes > 0): ?>
+                                <div class="charts-container">
+                                    <div class="chart-wrapper">
+                                        <h3>Vote Distribution - Bar Chart</h3>
+                                        <canvas id="barChart"></canvas>
+                                    </div>
+                                    <div class="chart-wrapper">
+                                        <h3>Vote Distribution - Pie Chart</h3>
+                                        <canvas id="pieChart"></canvas>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
                                 <div class="coalitions-results">
                                     <?php if (!empty($selected_results)): ?>
                                         <?php foreach ($selected_results as $result): ?>
@@ -174,5 +189,98 @@ if (isset($_GET['election_id'])) {
     </footer>
 
     <script src="script.js"></script>
+    
+    <script>
+        // Initialize charts if they exist
+        const barChartCanvas = document.getElementById('barChart');
+        const pieChartCanvas = document.getElementById('pieChart');
+        
+        if (barChartCanvas && pieChartCanvas) {
+            // Prepare data from PHP results
+            const resultsData = {
+                labels: [
+                    <?php 
+                        foreach ($selected_results as $result) {
+                            echo "'" . htmlspecialchars(str_replace("'", "\\'", $result['name'])) . "',";
+                        }
+                    ?>
+                ],
+                votes: [
+                    <?php 
+                        foreach ($selected_results as $result) {
+                            echo $result['vote_count'] . ",";
+                        }
+                    ?>
+                ],
+                colors: [
+                    <?php 
+                        foreach ($selected_results as $result) {
+                            echo "'" . htmlspecialchars($result['color'] ?? '#10b981') . "',";
+                        }
+                    ?>
+                ]
+            };
+
+            // Bar Chart
+            const barCtx = barChartCanvas.getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: resultsData.labels,
+                    datasets: [{
+                        label: 'Votes Received',
+                        data: resultsData.votes,
+                        backgroundColor: resultsData.colors,
+                        borderColor: resultsData.colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Pie Chart
+            const pieCtx = pieChartCanvas.getContext('2d');
+            new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: resultsData.labels,
+                    datasets: [{
+                        data: resultsData.votes,
+                        backgroundColor: resultsData.colors,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>

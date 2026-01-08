@@ -72,9 +72,10 @@ $results = $admin->getElectionResults($election_id);
                         <div class="modal-content">
                             <span class="close" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
                             <h3>Add Member to <?php echo htmlspecialchars($coalition['name']); ?></h3>
-                            <form id="addMemberForm-<?php echo $coalition['id']; ?>" class="addMemberForm">
+                            <form id="addMemberForm-<?php echo $coalition['id']; ?>" class="addMemberForm" enctype="multipart/form-data">
                                 <input type="hidden" name="action" value="add_member">
                                 <input type="hidden" name="coalition_id" value="<?php echo $coalition['id']; ?>">
+                                <input type="hidden" name="election_id" value="<?php echo $election_id; ?>">
                                 <div class="form-group">
                                     <label for="memberPosition">Position</label>
                                     <select name="position" required>
@@ -94,6 +95,11 @@ $results = $admin->getElectionResults($election_id);
                                 <div class="form-group">
                                     <label for="memberBio">Bio</label>
                                     <textarea name="bio" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberImage">Profile Image</label>
+                                    <input type="file" name="image" accept="image/*">
+                                    <small>Supported formats: JPG, PNG, GIF, WebP (max 5MB)</small>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add Member</button>
                             </form>
@@ -135,7 +141,7 @@ $results = $admin->getElectionResults($election_id);
                 <h3>Add Members to <span id="addMemberCoalitionName"></span></h3>
                 <p class="text-muted">Add the 6 coalition members (one position per person)</p>
                 
-                <form id="addMemberForm">
+                <form id="addMemberForm" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="add_member">
                     <input type="hidden" id="addMemberCoalitionId" name="coalition_id">
                     <input type="hidden" id="addMemberElectionId" name="election_id">
@@ -157,8 +163,13 @@ $results = $admin->getElectionResults($election_id);
                         <input type="text" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="memberBio">Bio (Optional)</label>
+                        <label for="memberBio">Bio</label>
                         <textarea name="bio" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberImage">Profile Image</label>
+                        <input type="file" name="image" accept="image/*">
+                        <small>Supported formats: JPG, PNG, GIF, WebP</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Add This Member</button>
                 </form>

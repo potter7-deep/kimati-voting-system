@@ -41,8 +41,21 @@ $user_has_voted = $voting->userHasVoted($election_id, $_SESSION['user_id']);
                         <?php if (!empty($coalition['members'])): ?>
                             <?php foreach ($coalition['members'] as $member): ?>
                                 <div class="member">
+                                    <?php if (!empty($member['image_url']) && file_exists($member['image_url'])): ?>
+                                        <img src="<?php echo htmlspecialchars($member['image_url']); ?>" alt="<?php echo htmlspecialchars($member['name']); ?>" class="member-image">
+                                    <?php else: ?>
+                                        <div class="member-image placeholder">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="12" cy="7" r="4"></circle>
+                                            </svg>
+                                        </div>
+                                    <?php endif; ?>
                                     <span class="member-position"><?php echo htmlspecialchars(str_replace('_', ' ', ucfirst($member['position']))); ?></span>
                                     <span class="member-name"><?php echo htmlspecialchars($member['name']); ?></span>
+                                    <?php if (!empty($member['bio'])): ?>
+                                        <span class="member-bio"><?php echo htmlspecialchars($member['bio']); ?></span>
+                                    <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -123,8 +136,32 @@ $user_has_voted = $voting->userHasVoted($election_id, $_SESSION['user_id']);
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.5rem;
     border-left: 3px solid var(--primary-color);
+    align-items: center;
+    text-align: center;
+}
+
+.member-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.member-image.placeholder {
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+}
+
+.member-image.placeholder svg {
+    width: 40px;
+    height: 40px;
 }
 
 .member-position {
@@ -138,6 +175,13 @@ $user_has_voted = $voting->userHasVoted($election_id, $_SESSION['user_id']);
     font-size: 0.95rem;
     color: var(--text-primary);
     font-weight: 600;
+}
+
+.member-bio {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    font-style: italic;
 }
 
 .btn-block {

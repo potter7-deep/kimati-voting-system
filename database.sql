@@ -65,6 +65,3 @@ CREATE INDEX idx_candidate_election ON candidates(election_id);
 CREATE INDEX idx_candidate_coalition ON candidates(coalition_id);
 CREATE INDEX idx_coalition_election ON coalitions(election_id);
 CREATE INDEX idx_vote_election ON votes(election_id);
-
-
-SELECT * FROM users;

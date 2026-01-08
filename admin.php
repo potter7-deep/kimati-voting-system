@@ -51,15 +51,27 @@ class AdminPanel {
         }
     }
     
-    public function addCoalitionMember($coalition_id, $election_id, $name, $position, $bio) {
-        $query = "INSERT INTO candidates (coalition_id, election_id, name, position, bio) VALUES (?, ?, ?, ?, ?)";
+    public function addCoalitionMember($coalition_id, $election_id, $name, $position, $bio, $image_url = null) {
+        $query = "INSERT INTO candidates (coalition_id, election_id, name, position, bio, image_url) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("iisss", $coalition_id, $election_id, $name, $position, $bio);
+        $stmt->bind_param("iissss", $coalition_id, $election_id, $name, $position, $bio, $image_url);
         
         if ($stmt->execute()) {
             return ['success' => true, 'message' => 'Member added successfully'];
         } else {
             return ['success' => false, 'message' => 'Failed to add member'];
+        }
+    }
+    
+    public function updateCandidateImage($candidate_id, $image_url) {
+        $query = "UPDATE candidates SET image_url = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("si", $image_url, $candidate_id);
+        
+        if ($stmt->execute()) {
+            return ['success' => true, 'message' => 'Image updated successfully'];
+        } else {
+            return ['success' => false, 'message' => 'Failed to update image'];
         }
     }
     
@@ -174,13 +186,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         echo json_encode($response);
         exit();
     } elseif ($action === 'add_member') {
+        $image_url = null;
+        
+        // Handle image upload
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploads_dir = 'uploads/candidates/';
+            if (!is_dir($uploads_dir)) {
+                mkdir($uploads_dir, 0755, true);
+            }
+            
+            $file_name = basename($_FILES['image']['name']);
+            $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            
+            if (in_array(strtolower($file_ext), $allowed_exts)) {
+                $new_file_name = 'candidate_' . time() . '_' . rand(1000, 9999) . '.' . $file_ext;
+                $file_path = $uploads_dir . $new_file_name;
+                
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $file_path)) {
+                    $image_url = $file_path;
+                }
+            }
+        }
+        
         $response = $admin->addCoalitionMember(
             $_POST['coalition_id'] ?? 0,
             $_POST['election_id'] ?? 0,
             $_POST['name'] ?? '',
             $_POST['position'] ?? '',
-            $_POST['bio'] ?? ''
+            $_POST['bio'] ?? '',
+            $image_url
         );
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit();
+    } elseif ($action === 'update_candidate_image') {
+        $image_url = null;
+        
+        // Handle image upload
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploads_dir = 'uploads/candidates/';
+            if (!is_dir($uploads_dir)) {
+                mkdir($uploads_dir, 0755, true);
+            }
+            
+            $file_name = basename($_FILES['image']['name']);
+            $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            
+            if (in_array(strtolower($file_ext), $allowed_exts)) {
+                $new_file_name = 'candidate_' . time() . '_' . rand(1000, 9999) . '.' . $file_ext;
+                $file_path = $uploads_dir . $new_file_name;
+                
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $file_path)) {
+                    $image_url = $file_path;
+                }
+            }
+        }
+        
+        if ($image_url) {
+            $response = $admin->updateCandidateImage($_POST['candidate_id'] ?? 0, $image_url);
+        } else {
+            $response = ['success' => false, 'message' => 'No valid image provided'];
+        }
         header('Content-Type: application/json');
         echo json_encode($response);
         exit();
@@ -197,7 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         header('Content-Type: application/json');
         echo json_encode($response);
         exit();
-    } elseif ($action === 'remove_member') {
+    } elseif ($action === 'remove_member' || $action === 'delete_candidate') {
         $response = $admin->removeMember($_POST['candidate_id'] ?? 0);
         header('Content-Type: application/json');
         echo json_encode($response);
