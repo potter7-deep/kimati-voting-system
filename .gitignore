@@ -1,0 +1,34 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+.env.local
+.env.*.local
+
+# Uploads (local only - may be regenerated on Render)
+uploads/candidates/*
+!uploads/candidates/.gitkeep
+
+# Logs
+*.log
+
+# Node (if using npm)
+node_modules/
+package-lock.json
+
+# Composer
+composer.lock
+
+# Temporary
+tmp/
+temp/
+cache/

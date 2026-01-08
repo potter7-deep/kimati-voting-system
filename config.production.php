@@ -1,12 +1,10 @@
 <?php
-session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Production database configuration for Render.com
+// Update config.php to use environment variables
 
-// Support both local development and Render.com production
 $host = getenv('DB_HOST') ?: 'localhost';
 $db_user = getenv('DB_USER') ?: 'root';
-$db_password = getenv('DB_PASSWORD') ?: '0714740470DANmaina';
+$db_password = getenv('DB_PASSWORD') ?: '';
 $db_name = getenv('DB_NAME') ?: 'voting_system';
 
 try {
