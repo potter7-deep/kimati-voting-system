@@ -18,7 +18,7 @@ $is_admin = $is_logged_in && $auth->isAdmin();
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-brand">
-                <img src="logo.png" alt="Kimathi Logo" class="navbar-logo">
+                <img src="K.png" alt="Kimathi Logo" class="navbar-logo">
                 <div class="brand-text">
                     <div class="university-name">Dedan Kimathi University</div>
                     <span class="brand-name">Voting System</span>
@@ -76,7 +76,7 @@ $is_admin = $is_logged_in && $auth->isAdmin();
                     </div>
                 </div>
                 <div class="hero-illustration">
-                    <img src="k-v-s-logo.png" alt="Kimathi Voting System Logo" class="hero-logo">
+                    <img src="KVS.png" alt="Kimathi Voting System Logo" class="hero-logo">
                 </div>
             </section>
 

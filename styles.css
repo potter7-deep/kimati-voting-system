@@ -214,7 +214,10 @@ body:not(.dark-mode) .moon-icon {
     max-width: 1200px;
     margin: 0 auto;
     padding: 3rem 2rem;
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* Hero Section */
@@ -223,7 +226,7 @@ body:not(.dark-mode) .moon-icon {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
-    margin-bottom: 6rem;
+    padding: 2rem 0;
 }
 
 .hero-header {
@@ -434,6 +437,10 @@ body:not(.dark-mode) .moon-icon {
 /* Dashboard */
 .dashboard {
     text-align: center;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .dashboard h1 {
